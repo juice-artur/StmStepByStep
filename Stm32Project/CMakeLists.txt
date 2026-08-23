@@ -30,12 +30,13 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/files.cmake)
 
 # Add sources to executable/library
 target_sources(${PROJECT_NAME} PRIVATE
-  # User defined sources
+  "${CMAKE_CURRENT_SOURCE_DIR}/Src/system_stm32f4xx.c"
 )
 
 # Add include directories
 target_include_directories(${PROJECT_NAME} PRIVATE
-  # User defined include directories
+  Drivers/CMSIS/Include
+  Drivers/CMSIS/Device/ST/STM32F4xx/Include
 )
 
 # Compiler options
@@ -45,7 +46,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 
 # Add additional defined symbols
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-  # Add additional defined symbols here
+  STM32F411xE
 )
 
 # Linker options
