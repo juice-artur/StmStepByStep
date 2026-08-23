@@ -17,9 +17,24 @@
  */
 
 #include <stdint.h>
+#include "stm32f411xe.h"
+
 
 int main(void)
 {
-    /* Loop forever */
-	for(;;);
+   RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;      
+    (void)RCC->AHB1ENR;         
+
+    GPIOC->MODER  &= ~GPIO_MODER_MODER13;             
+    GPIOC->MODER  |=  GPIO_MODER_MODER13_0;            
+    GPIOC->PUPDR  &= ~GPIO_PUPDR_PUPD13;             
+    GPIOC->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED13;
+
+    for (;;) 
+    {                                  
+        GPIOC->BSRR = GPIO_BSRR_BS13;               
+        for (volatile uint32_t i = 0; i < 1000000; ++i) {}  
+        GPIOC->BSRR = GPIO_BSRR_BR13;          
+        for (volatile uint32_t i = 0; i < 1000000; ++i) {}
+    }
 }
