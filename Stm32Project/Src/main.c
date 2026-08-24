@@ -30,11 +30,24 @@ int main(void)
     GPIOC->PUPDR  &= ~GPIO_PUPDR_PUPD13;             
     GPIOC->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED13;
 
-    for (;;) 
-    {                                  
-        GPIOC->BSRR = GPIO_BSRR_BS13;               
-        for (volatile uint32_t i = 0; i < 1000000; ++i) {}  
-        GPIOC->BSRR = GPIO_BSRR_BR13;          
-        for (volatile uint32_t i = 0; i < 1000000; ++i) {}
+    RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
+
+    TIM1->PSC = 15999;      
+    TIM1->ARR = 999;       
+    TIM1->EGR = TIM_EGR_UG; 
+    TIM1->SR = ~TIM_SR_UIF; 
+    TIM1->DIER |= TIM_DIER_UIE;
+
+    TIM1->CR1 |= TIM_CR1_CEN;
+
+    NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+}
+
+
+void TIM1_UP_TIM10_IRQHandler(void) 
+{
+    if (TIM1->SR & TIM_SR_UIF) {
+        TIM1->SR &= ~TIM_SR_UIF;  
+        GPIOC->ODR ^= GPIO_ODR_OD13; 
     }
 }
