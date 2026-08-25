@@ -1,3 +1,2 @@
-
-
-# STM32 from zero to hero
+# Bare metal blink  project
+## For STM32F411CEU6
