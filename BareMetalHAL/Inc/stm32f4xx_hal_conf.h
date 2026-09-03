@@ -13,6 +13,7 @@
 #define HAL_FLASH_MODULE_ENABLED
 #define HAL_CORTEX_MODULE_ENABLED
 #define HAL_EXTI_MODULE_ENABLED
+#define HAL_I2C_MODULE_ENABLED
 
 #if !defined (HSE_VALUE)
   #define HSE_VALUE              25000000U
@@ -80,6 +81,10 @@
   #include "stm32f4xx_hal_flash.h"
   #include "stm32f4xx_hal_flash_ex.h"
   #include "stm32f4xx_hal_flash_ramfunc.h"
+#endif
+
+#ifdef HAL_I2C_MODULE_ENABLED
+  #include "stm32f4xx_hal_i2c.h"
 #endif
 
 #define assert_param(expr) ((void)0U)
